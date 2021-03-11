@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const http = require('http');
+const cors = require('cors');
 
 const indexRouter = require('./routes/index');
 
@@ -9,6 +10,7 @@ var app = express();
 
 // config
 app.use('/', indexRouter);
+app.use(cors());
 
 // init server
 var server = http.createServer(app);
