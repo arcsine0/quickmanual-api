@@ -6,9 +6,12 @@ const request = require('request');
 
 var router = express.Router();
 
-router.get('/:context', (req, res) => {
+router.get('/:context/:contextA', (req, res) => {
     var context = req.params.context;
-    var url = 'https://docs.erpnext.com/docs/user/manual/en/' + context;
+    var contextA;
+    if (req.params.contextA === 'def') { contextA = ''; }
+    else { contextA = req.params.contextA; }
+    var url = 'https://docs.erpnext.com/docs/user/manual/en/' + context + '/' + contextA;
 
     var ch_url = {
         uri: url,
@@ -16,16 +19,6 @@ router.get('/:context', (req, res) => {
             return cheerio.load(body);
         }
     }
-
-    // rp(ch_url)
-    // .then($ => {
-    //     $('body').find('main').detach().appendTo('body');
-    //     $('body').children(':not(main)').remove();
-    //     res.send($.html());
-    // })
-    // .catch(err => {
-    //     console.log('err: ' + err);
-    // });
 
     request({
         method: 'GET',
