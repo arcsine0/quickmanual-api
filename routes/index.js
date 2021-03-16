@@ -3,6 +3,7 @@ const path = require('path');
 const cheerio = require('cheerio');
 const request = require('request');
 const puppeteer = require('puppeteer');
+// added puppeteer buildpacks through heroku cli
 
 var router = express.Router();
 
