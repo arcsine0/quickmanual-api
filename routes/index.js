@@ -11,7 +11,8 @@ router.get('/:context/:contextA', (req, res) => {
     var contextA;
     if (req.params.contextA === 'def') { contextA = ''; }
     else { contextA = req.params.contextA; }
-    var url = 'https://docs.erpnext.com/docs/user/manual/en/' + context + '/' + contextA;
+    // var url = 'https://docs.erpnext.com/docs/user/manual/en/' + context + '/' + contextA;
+    var url = 'https://docs.erpnext.com/docs/user/manual/en';   // test url
 
     var ch_url = {
         uri: url,
@@ -25,8 +26,10 @@ router.get('/:context/:contextA', (req, res) => {
         url: url,
     }, (err, resp, body) => {
         $ = cheerio.load(body);
-        $('main').appendTo('body');
-        $('body').children(':not(main)').remove();
+        // $('main').appendTo('body');
+        // $('body').children(':not(main)').remove();
+        $('#search-container').appendTo('body');
+        $('body').children(':not(#search-container)').remove();
 
         res.send($('body').html());
     })
