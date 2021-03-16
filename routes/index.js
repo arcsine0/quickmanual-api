@@ -13,7 +13,7 @@ router.get('/:context', (req, res) => {
         const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
 
-        await page.goto('https://docs.erpnext.com/docs/user/manual/en', {waitUntil: 'networkidle2'});
+        await page.goto('https://docs.erpnext.com/docs/user/manual/en', {waitUntil: 'domcontentloaded'});
         await page.$eval('input[class="form-control"]', (el, context) => el.value = context, context);
         await (await page.$('input[class="form-control"]')).click();
         await page.waitForSelector('.dropdown-item');
