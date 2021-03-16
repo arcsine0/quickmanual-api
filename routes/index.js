@@ -10,7 +10,7 @@ router.get('/:context', (req, res) => {
     async function main() {
         var context = req.params.context;
 
-        const browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.launch({ headless: true, args: [ '--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--single-process'] });
         const page = await browser.newPage();
 
         await page.goto('https://docs.erpnext.com/docs/user/manual/en', {waitUntil: 'domcontentloaded'});
@@ -20,13 +20,13 @@ router.get('/:context', (req, res) => {
 
         const initContent = await page.content();
         $ = cheerio.load(initContent);
-        $('.doc-search-container').appendTo('body');
-        $('body').children(':not(.doc-search-container)').remove();
+        // $('.doc-search-container').appendTo('body');
+        // $('body').children(':not(.doc-search-container)').remove();
 
         var targetContext = $('.dropdown-menu').children('.dropdown-item').first().attr('href');
         var targetUrl = 'https://docs.erpnext.com' + targetContext;
         browser.close();
-
+        
         request({
             method: 'GET',
             url: targetUrl,
